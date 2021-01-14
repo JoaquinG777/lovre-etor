@@ -1,2 +1,7 @@
 ---
-# To be completed...
+- name: "Deployment Raspberry Pi"
+  hosts: # To be completed...
+  become: true
+  become_user: "{{ ansible_user_deploy }}"
+  roles:
+    - deploy-raspberry-pi

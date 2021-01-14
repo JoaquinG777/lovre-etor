@@ -1,0 +1,8 @@
+---
+#########################################
+# List of tasks to execute #
+#########################################
+
+# Verify prerequisites
+- include_tasks: "commun/verify_prerequis.yml"
+  when: rollback_flag == false
