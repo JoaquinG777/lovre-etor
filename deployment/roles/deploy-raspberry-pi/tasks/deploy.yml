@@ -1,0 +1,13 @@
+---
+#########################################
+# Actions de marche avant
+#########################################
+
+# Telechargement des sources
+- include_tasks: "deploy/001-telechargement_sources.yml"
+
+# Upload config
+- include_tasks: "deploy/002-update_config.yml"
+
+# Bascule l'application courante
+- include_tasks: "deploy/003-update_symlinks.yml"

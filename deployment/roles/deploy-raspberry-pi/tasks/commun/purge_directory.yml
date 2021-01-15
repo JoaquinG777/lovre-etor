@@ -1,0 +1,30 @@
+---
+##############################################
+# Helper for rotating various files #
+##############################################
+
+- name: "Verifications"
+  assert:
+    that:
+      - rotate_file_folder is defined
+      - rotate_file_pattern is defined
+    fail_msg: Erreur de paramètre lors de l'appel de rotate_backup.yml
+
+- name: "List existing files"
+  find:
+    paths: "{{ rotate_file_folder }}"
+    patterns: "{{ rotate_file_pattern }}"
+    file_type: "{{ rotate_file_type | default('file') }}"
+    age: "{{ rotate_max_age | default(omit) }}"
+  register: in_backup_to_delete
+
+  # La syntaxe du loop permet de lister tous les fichiers sauf les {{ backup_max_count }} derniers triés par ordre de modification (mtime)
+  # par défaut on ne garde que la dernière sauvegarde. On ne les supprime jamais toutes afin de toujours disposer d'une sauvegarde fiable
+- name: "Purge old files"
+  file:
+    path: "{{ in_file_to_delete.path }}"
+    state: absent
+  loop_control:
+    loop_var: in_file_to_delete
+  loop: "{{ (in_backup_to_delete.files | default([]) | sort(attribute='mtime', reverse=true) )[ ( rotate_min_count | default(5) ):] }}"
+  when: in_backup_to_delete.matched > (rotate_min_count | default(5))

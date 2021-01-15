@@ -6,3 +6,21 @@
 # Verify prerequisites
 - include_tasks: "commun/verify_prerequis.yml"
   when: rollback_flag == false
+
+# Deployment or rollback
+- include_tasks: "deploy.yml"
+  when: rollback_flag == false
+
+- include_tasks: "rollback.yml"
+  when: rollback_flag == true
+
+  # Start
+- include_tasks: "commun/boot_service.yml"
+  vars:
+    working_dir: "{{ current_app_dir }}"
+
+# Status (Option 1)
+- include_tasks: "commun/status_service.yml"
+  vars:
+    working_dir: "{{ current_app_dir }}"
+

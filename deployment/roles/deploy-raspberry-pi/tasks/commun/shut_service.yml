@@ -1,0 +1,16 @@
+---
+#########################################
+# Arret du service
+#########################################
+
+- name: "Verification de l'existence du script SHUT"
+  stat:
+    path: "{{ install_dir }}/SHUT"
+  register: shut_script_file
+
+- name: "Arret du service"
+  shell: "{{ install_dir }}/SHUT"
+  args:
+    chdir: "{{ install_dir }}"
+  when: shut_script_file.stat.exists
+  ignore_errors: true

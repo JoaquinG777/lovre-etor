@@ -1,0 +1,36 @@
+---
+# Ignore error au cas où c'est le premier déploiement
+- name: Gets the path to the current version
+  stat:
+    path: "{{ current_app_dir }}"
+  register: stat_current_app_dir
+
+# Arret du service si le lien symbolique n'est pas bon
+- include_tasks: "commun/shut_service.yml"
+  vars:
+    working_dir: "{{ current_app_dir }}"
+  when: stat_current_app_dir.stat.exists and
+        version is not search( stat_current_app_dir.stat.lnk_target )
+
+- name: " Setting up the symbolic link {{ current_app_dir }} to the new version"
+  file:
+    src: "{{ version_extract_dir }}"
+    dest: "{{ current_app_dir }}"
+    state: link
+  register: symlnk_result
+
+- name: Save the path of the previous version
+  copy:
+    content: "{{ stat_current_app_dir.stat.lnk_target }}"
+    dest: "{{ current_app_dir }}/version_precedente.txt"
+  when: stat_current_app_dir.stat.islnk is defined and
+        stat_current_app_dir.stat.islnk and
+        symlnk_result is changed
+
+- name: "Purge les anciennes installations"
+  include_tasks: "commun/purge_directory.yml"
+  vars:
+    rotate_file_folder: "{{ install_dir }}"
+    rotate_min_count: "{{ rotate_install_dir }}"
+    rotate_file_pattern: "louvre-etor-v*"
+    rotate_file_type: "directory"

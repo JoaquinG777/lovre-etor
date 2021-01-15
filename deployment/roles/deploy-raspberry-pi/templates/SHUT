@@ -1,0 +1,10 @@
+#bin/bash
+echo "###################################"
+echo "                                   "
+echo "        ARRET DU SERVICE           "
+echo "                                   "
+echo "                                   "
+echo "###################################"
+
+bash {{ APP_SERVER_BASE_DIR }}/bin/BOOT.sh stop  # Needs to be changed
+

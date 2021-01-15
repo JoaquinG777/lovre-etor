@@ -1,0 +1,38 @@
+---
+#########################################
+# Validation of prerequisites
+#########################################
+
+# Verification of mandatory variables
+- name: "Verification des variables obligatoires"
+  fail:
+    msg: "'{{ item }}' doit etre definie"
+  when: "
+    (vars[item] is undefined)
+       or
+    (vars[item] is none)
+       or
+    (vars[item] | trim == '')
+    "
+  loop: "{{ applicative_required_vars | default([]) }}"
+
+  # Creation of delivery_dir
+- name: Creation delivrey_dir
+  file:
+    path: "{{ delivery_dir }}"
+    state: directory
+    owner: "{{ pi_user_deploy }}"
+    group: "{{ pi_user_deploy }}"
+    mode: "0755"
+
+# Check Java version:
+- name: "Recupere la version de Java"
+  shell: java -version 2>&1 | grep version | awk '{print $3}' | sed 's/"//g'
+  changed_when: false
+  failed_when: javaver.rc > 0
+  register: javaver
+
+- name: "Verification de la version de Java"
+  assert:
+    that:
+      -  "{{ javaver.stdout is version('1.8', '>=') }}"

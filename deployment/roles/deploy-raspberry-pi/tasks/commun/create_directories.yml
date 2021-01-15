@@ -1,0 +1,14 @@
+---
+
+# Creation of application directories
+
+- name: Create application directories
+  become: yes
+  become_user: "{{ pi_user_deploy }}"
+  file:
+    path: "{{ item.path }}"
+    state: directory
+    mode: "{{ item.mode }}"
+    owner: "{{ item.owner|default(pi_user_deploy) }}"
+    group: "{{ item.group|default(pi_user_deploy) }}"
+  loop: "{{ louvre-etor_directory_to_create }}"

@@ -1,0 +1,15 @@
+---
+
+- name: Create a tar.gz archive of the {{ item }} file.
+  archive:
+    path:  /var/LOUVRE/{{ item }}
+    dest: /home/pi/backup/{{ installed_version }}/{{ item }}.tar.gz
+    format: gz
+    force_archive: true
+    loop:
+      - log4j.properties
+      - louvre.properties
+      - LOUVRE_Raspberry_GPIO.jar
+      - trutstore.jks
+
+  
