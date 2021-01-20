@@ -6,5 +6,5 @@ echo "                                   "
 echo "                                   "
 echo "###################################"
 
-bash {{ APP_SERVER_BASE_DIR }}/bin/BOOT.sh stop  # Needs to be changed
+bash {{ app_server_user_home }}/bin/BOOT.sh stop  # Needs to be changed or created
 

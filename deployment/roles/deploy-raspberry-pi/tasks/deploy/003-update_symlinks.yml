@@ -14,7 +14,7 @@
 
 - name: " Setting up the symbolic link {{ current_app_dir }} to the new version"
   file:
-    src: "{{ version_extract_dir }}"
+    src: "{{ delivery_dir }}"
     dest: "{{ current_app_dir }}"
     state: link
   register: symlnk_result
@@ -34,3 +34,4 @@
     rotate_min_count: "{{ rotate_install_dir }}"
     rotate_file_pattern: "louvre-etor-v*"
     rotate_file_type: "directory"
+  

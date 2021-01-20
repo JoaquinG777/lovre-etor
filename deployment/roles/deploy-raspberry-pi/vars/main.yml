@@ -3,15 +3,12 @@
 ####################################################
 # ansible_python_interpreter "/usr/bin/python3"
 
-
-
 applicative_required_vars:
-app_server_user
-nexus_user
-nexus_pass
-delivery_dir
-version_extract_dir
-current_app_dir
-rotate_file_pattern
+  app_server_user
+  nexus_user
+  nexus_pass
+  delivery_dir
+  current_app_dir
+  rotate_file_pattern
 
 
