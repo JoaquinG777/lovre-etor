@@ -8,10 +8,14 @@ rollback_flag: false
 
 # Purge variables
 rotate_file_pattern:
-rotate_file_type:
+rotate_file_type: .tar.gz
 rotate_max_age: 5
 
 # Fichiers à templatiser
 templates_applicatifs:
   - { src: "watchdog.conf.j2", dest: "etc/watchdog.conf",  owner: "{{ app_server_user }}", group: "{{ app_name }}", mode: "0755" }
+  - { src: "SHUT", dest: "{{app_server_home}}", owner: "{{ app_server_user }}", group: "{{ app_name }}", mode: "0755" }
+  - { src: "START", dest: "{{app_server_home}}", owner: "{{ app_server_user }}", group: "{{ app_name }}", mode: "0755" }
+
+  
   

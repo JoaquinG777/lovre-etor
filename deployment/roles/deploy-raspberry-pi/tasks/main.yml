@@ -15,7 +15,7 @@
   when: rollback_flag == true
 
   # Start
-- include_tasks: "commun/boot_service.yml"
+- include_tasks: "commun/start_service.yml"
   vars:
     working_dir: "{{ current_app_dir }}"
 

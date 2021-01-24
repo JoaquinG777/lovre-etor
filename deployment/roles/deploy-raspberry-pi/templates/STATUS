@@ -1,10 +1,10 @@
 #bin/bash
 echo "###################################"
 echo "                                   "
-echo "       START SERVICE               "
+echo "       STATUS SERVICE               "
 echo "                                   "
 echo "                                   "
 echo "###################################"
 
-bash {{ working_dir }}/LouEtor/BOOT.sh stop  
+bash {{ working_dir }}/LouEtor/BOOT.sh status  
 

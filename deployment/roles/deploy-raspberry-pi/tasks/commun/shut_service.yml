@@ -1,9 +1,9 @@
 ---
 #########################################
-# Arret du service
+# STOP service
 #########################################
 
-- name: "Verification de l'existence du script SHUT"
+- name: "Verification of the SHUT script"
   stat:
     path: "{{ install_dir }}/SHUT"
   register: shut_script_file

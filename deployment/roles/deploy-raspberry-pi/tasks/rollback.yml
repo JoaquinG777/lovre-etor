@@ -1,2 +1,53 @@
 ---
-# To be completed...
+#########################################
+# Rollback
+#########################################
+- name: Gets the path to the previous version
+  stat:
+    path: "{{ current_app_dir }}"
+  register: stat_current_app_dir
+
+# Verifies that rollback to the previous version is possible
+- assert:
+    that: stat_current_app_dir.stat.exists and
+        version is search( stat_current_app_dir.stat.lnk_target )
+    msg: Impossible to make a rollback, because the current version is not the one indicated".
+
+
+#########################################
+# Verification of the existence of a previous version
+#########################################
+
+- name: Get the path of the previous version
+  slurp:
+    src: "{{ current_app_dir }}/version_precedente.txt"
+  register: previous_version_slurp
+
+- name: "Decode the path of the old version"
+  set_fact:
+    previous_version_path: "{{ previous_version_slurp['content'] | b64decode }}"
+
+- name: "Verifying the existence of the target version of the rollback"
+  stat:
+    path: "{{item}}"
+  loop:
+    - "{{ previous_version_path }}"
+    - "{{ previous_version_path }}/config"
+  register: dirs_previous_install_stats
+
+- name: "Fail if target version of backspace does not exist"
+  fail:
+    msg: "The target version of the rollback does not exist"
+  when: not item.stat.exists
+  loop: "{{ dirs_previous_install_stats.results }}"
+
+# Stop of service (version playbook >= v2.0)
+- include_tasks: "commun/shut_service.yml"
+  vars:
+    working_dir: "{{ current_app_dir }}"
+
+- name: "Symbolic link update {{ current_app_dir }} to the previous version"
+  file:
+    src: "{{ previous_version_path }}"
+    dest: "{{ current_app_dir }}"
+    state: link

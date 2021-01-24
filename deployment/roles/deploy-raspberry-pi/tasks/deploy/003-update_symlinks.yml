@@ -14,7 +14,7 @@
 
 - name: " Setting up the symbolic link {{ current_app_dir }} to the new version"
   file:
-    src: "{{ delivery_dir }}"
+    src: "{{ version_extract_dir }}"
     dest: "{{ current_app_dir }}"
     state: link
   register: symlnk_result

@@ -13,3 +13,5 @@
     group: "{{ item.group }}"
     mode: "{{ item.mode }}"
   with_items: "{{ templates_applicatifs }}"
+
+  

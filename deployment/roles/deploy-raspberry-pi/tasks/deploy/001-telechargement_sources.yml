@@ -4,30 +4,52 @@
 
 - name: "Initialisation Variables de livraison"
   set_fact:
-    deploiement_sources_url_nexus: "{{ nexus_url }}/{{nexus_repo_release}}/{{artifact_id}}{{ (version | upper) }}/{{artifact_id}}-{{ (version | upper) }}{{ artifact_extension }}"
- 
+    deployment_sources_url_nexus: "{{ nexus_url }}{{ (version | upper | regex_search('-SNAPSHOT')) | ternary(nexus_repo_snapshot, nexus_repo_release) }}"
+
+
  # Delete the oldest backup before downloading the new one.
-- name: "Purges les anciennes livraison existantes"
+- name: "Purges old existing deliveries"
   include_tasks: "commun/purge_directory.yml"
   vars:
     rotate_file_folder: "{{ delivery_dir }}"
     rotate_min_count: "{{ rotate_delivery_dir }}"
-    rotate_file_pattern: "*.jar"
+    rotate_file_pattern: "*.tar.gz"
 
 ## Component download
 - name: "Telechargement livrable {{ version }}"
   maven_artifact:
-    repository_url: "{{ deploiement_sources_url_nexus }}"
+    repository_url: "{{ deployment_sources_url_nexus }}"
     group_id: "{{ artifact_groupid }}"
     artifact_id: "{{ artifact_id }}"
     version: "{{ version }}"
     classifier: "{{ artifact_classifier }}"
     extension: "{{ artifact_extension }}"
-    owner: "{{ pi_user_deploy }}"
+    owner: "{{ app_server_user }}"
     dest: "{{ delivery_dir }}"
     username: "{{ nexus_user }}"
     password: "{{ nexus_pass }}"
     verify_checksum: always
     validate_certs: no
   register: download_info
+
+
+#Creation du dossier de decompression et de log
+- name: "Creation du dossier de decompression et de log"
+  file:
+    path: "{{ version_extract_dir}}/logs"
+    state: directory
+    mode: "0755"
+    owner: "{{ app_server_user }}"
+    group: "{{ app_server_user }}"
+
+
+- name: "Decompression {{ download_info.dest }}/"
+  unarchive:
+    src: "{{ download_info.dest }}"
+    dest: "{{ version_extract_dir }}"
+    owner: "{{ app_server_user }}"
+    group: "{{ app_server_user }}"
+    mode: "u=rwX,g=rwX,o=rX"
+    remote_src: yes
+  register: unarchive_results
 

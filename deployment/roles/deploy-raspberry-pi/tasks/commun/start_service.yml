@@ -1,0 +1,16 @@
+---
+#########################################
+# START service
+#########################################
+
+- name: "Verification of the START script"
+  stat:
+    path: "{{ install_dir }}/START"
+  register: start_script_file
+
+- name: "Start the service"
+  shell: "{{ install_dir }}/START"
+  args:
+    chdir: "{{ install_dir }}"
+  when: start_script_file.stat.exists
+  ignore_errors: true

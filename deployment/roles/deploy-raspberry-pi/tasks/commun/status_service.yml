@@ -1,0 +1,16 @@
+---
+#########################################
+# Verify service status
+#########################################
+
+- name: "Verification of the STATUS script"
+  stat:
+    path: "{{ install_dir }}/STATUS"
+  register: status_script_file
+
+- name: "Verify the status of the service"
+  shell: "{{ install_dir }}/STATUS"
+  args:
+    chdir: "{{ install_dir }}"
+  when: status_script_file.stat.exists
+  ignore_errors: true
