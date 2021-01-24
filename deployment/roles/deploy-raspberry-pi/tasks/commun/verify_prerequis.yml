@@ -37,17 +37,19 @@
     that:
       -  "{{ javaver.stdout is version('1.8', '>=') }}"
 
-- name: Verify Watchdog is installed
-  apt:
-    name: watchdog
-    state: present
-    any_errors_fatal: true
+- name: Check if watchdog config file exists and fail task if it does
+  command: ls /etc/watchdog.conf
+  register: result
+  failed_when:
+    - result.rc == 0
+    - '"No such" not in result.stdout'
     
-- name: Ensure a job that a weekly reboot exists. Creates an entry like "0 5,2 * * ls -alh > /dev/null"
+    
+- name: Ensure a job that a weekly reboot exists. 
   cron:
     name: "weekly reboot"
-    minute: "0"
-    hour: "5,2"
-    job: 'lt; 'lt;(sudo crontab -l; echo "0 3 - 1 sudo reboot")
+    weekday: "0"
+    hour: "0"
+    job: '"sudo shutdown -r"
 
-    # sudo crontab 'lt; 'lt;(sudo crontab -l; echo "0 3 - 1 sudo reboot")
+  
