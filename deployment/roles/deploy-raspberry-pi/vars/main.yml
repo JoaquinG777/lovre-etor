@@ -10,5 +10,5 @@ applicative_required_vars:
   delivery_dir
   current_app_dir
   rotate_file_pattern
-  pi_user_deploy
+  app_server_user
   

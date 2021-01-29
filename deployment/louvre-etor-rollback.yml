@@ -2,7 +2,7 @@
 - name: "Deployment Raspberry Pi"
   hosts: # To be completed...
   become: true
-  become_user: "{{ ansible_user_deploy }}"
+  become_user: "{{ app_user_deploy }}"
 
   vars:
     rollback_flag: true

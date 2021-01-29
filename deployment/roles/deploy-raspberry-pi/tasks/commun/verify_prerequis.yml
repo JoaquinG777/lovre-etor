@@ -21,8 +21,8 @@
   file:
     path: "{{ delivery_dir }}"
     state: directory
-    owner: "{{ pi_user_deploy }}"
-    group: "{{ pi_user_deploy }}"
+    owner: "{{ app_server_user }}"
+    group: "{{ app_server_user }}"
     mode: "0755"
 
 # Check Java version:
