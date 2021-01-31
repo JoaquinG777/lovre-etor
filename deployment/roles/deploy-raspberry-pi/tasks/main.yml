@@ -7,6 +7,8 @@
 - include_tasks: "commun/verify_prerequis.yml"
   when: rollback_flag == false
 
+- include_tasks: "commun/backup_watchdog.yml"
+  
 # Deployment or rollback
 - include_tasks: "deploy.yml"
   when: rollback_flag == false

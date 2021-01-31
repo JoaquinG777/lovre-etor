@@ -1,0 +1,19 @@
+---
+
+- name: Copy a new "watchdog.conf" file into place, backing up the original if it differs from the copied version
+  copy:
+    src: /etc/watchdog.conf
+    dest: "{{ watchdog_backup_dir }}/watchdog.conf"
+    owner: "{{ app_server_user }}"
+    group: "{{ app_server_user }}"
+    mode: '0644'
+    backup: yes
+
+- name: "Purge les anciennes installations"
+  include_tasks: "commun/purge_directory.yml"
+  vars:
+    rotate_file_folder: "{{ watchdog_backup_dir }}"
+    rotate_min_count: "{{ rotate_install_dir }}"
+    rotate_file_pattern: "watchdog*"
+    rotate_file_type: "file"
+   

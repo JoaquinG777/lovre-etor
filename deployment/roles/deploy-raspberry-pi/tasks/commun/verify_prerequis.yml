@@ -37,13 +37,22 @@
     that:
       -  "{{ javaver.stdout is version('1.8', '>=') }}"
 
-- name: Check if watchdog config file exists and fail task if watchdog.conf file not present
-  command: ls /etc/watchdog.conf
-  register: result
-  failed_when:
-    - result.rc == 0
-    - '"No such" not in result.stdout'
+# # Check that watchdog is installed
+# - name: Check if watchdog config file exists and fail task if watchdog.conf file not present
+#   command: ls /etc/watchdog.conf
+#   register: result
+#   failed_when:
+#     - result.rc == 0
+#     - '"No such" not in result.stdout'
+
+- name: Check watchdog is installed
+  apt:
+    name: watchdog
+    state: present
+
+
    
+# Check weekly reboot is configured.   
 - name: Ensure that a weekly reboot exists. 
   cron:
     name: "weekly reboot"

@@ -1,11 +1,11 @@
 ---
-# Ignore error au cas où c'est le premier déploiement
+# Ignore error in case this is the first deployment
 - name: Gets the path to the current version
   stat:
     path: "{{ current_app_dir }}"
   register: stat_current_app_dir
 
-# Arret du service si le lien symbolique n'est pas bon
+# Stopping the service if the symbolic link is not good
 - include_tasks: "commun/shut_service.yml"
   vars:
     working_dir: "{{ current_app_dir }}"

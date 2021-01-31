@@ -18,8 +18,8 @@
     age: "{{ rotate_max_age | default(omit) }}"
   register: in_backup_to_delete
 
-  # La syntaxe du loop permet de lister tous les fichiers sauf les {{ backup_max_count }} derniers triés par ordre de modification (mtime)
-  # par défaut on ne garde que la dernière sauvegarde. On ne les supprime jamais toutes afin de toujours disposer d'une sauvegarde fiable
+  # The syntax of the loop allows to list all the files except the {{ backup_max_count }} last ones sorted by order of modification (mtime).
+  # by default only the last backup is kept. We never delete all of them in order to always have a reliable backup.
 - name: "Purge old files"
   file:
     path: "{{ in_file_to_delete.path }}"

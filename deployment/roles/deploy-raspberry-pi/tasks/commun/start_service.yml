@@ -14,3 +14,7 @@
     chdir: "{{ install_dir }}"
   when: start_script_file.stat.exists
   ignore_errors: true
+
+- name: Autostart louvre-etor app
+  service: name="{{ louvre_service_name }}" state=started
+  

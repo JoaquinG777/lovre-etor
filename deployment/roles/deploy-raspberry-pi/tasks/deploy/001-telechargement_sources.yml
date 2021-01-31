@@ -33,8 +33,8 @@
   register: download_info
 
 
-#Creation du dossier de decompression et de log
-- name: "Creation du dossier de decompression et de log"
+# Creation of the decompression and log files
+- name: "Creation of the decompression folder and log files"
   file:
     path: "{{ version_extract_dir}}/logs"
     state: directory
