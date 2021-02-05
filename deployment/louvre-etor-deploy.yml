@@ -6,5 +6,5 @@
   
   roles:
     - deploy-raspberry-pi
-    - deploy-watchdog2
+    - deploy-watchdog
     
