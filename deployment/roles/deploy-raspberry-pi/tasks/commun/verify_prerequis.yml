@@ -58,6 +58,6 @@
     name: "weekly reboot"
     weekday: "0"
     hour: "0"
-    job: '"sudo shutdown -r"
+    job: "sudo shutdown -r"
 
   
