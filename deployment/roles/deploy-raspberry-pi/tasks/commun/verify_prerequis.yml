@@ -46,10 +46,11 @@
 #     - '"No such" not in result.stdout'
 
 - name: Check watchdog is installed
+  become: true
+  become_user: root
   apt:
     name: watchdog
     state: present
-  become_user: sudo
 
 
    
