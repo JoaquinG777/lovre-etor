@@ -2,7 +2,7 @@
 
 - name: Copy a new "watchdog.conf" file into place, backing up the original if it differs from the copied version
   copy:
-    src: /etc/watchdog.conf
+    remote_src: /etc/watchdog.conf
     dest: "{{ watchdog_backup_dir }}/watchdog.conf"
     owner: "{{ app_server_user }}"
     group: "{{ app_server_user }}"
