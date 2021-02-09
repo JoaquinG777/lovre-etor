@@ -39,7 +39,7 @@
 
 # Check that watchdog is installed
 - name: Check if watchdog config file exists and fail task if watchdog.conf file not present
-  stat: path=/etc/watchdog.conf
+  stat: path=/etc/watchhdog.conf
   register: result
   failed_when:
     result.stat.exists == false
