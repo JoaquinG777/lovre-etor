@@ -49,7 +49,7 @@
   apt:
     name: watchdog
     state: present
-  become: yes
+  become_user: sudo
 
 
    
