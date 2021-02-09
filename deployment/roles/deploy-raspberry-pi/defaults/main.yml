@@ -7,7 +7,7 @@
 rollback_flag: false
 
 # Purge variables
-rotate_file_pattern:
+rotate_file_pattern: "louvre-etor*"
 rotate_file_type: .tar.gz
 rotate_max_age: 5
 
