@@ -42,7 +42,7 @@
   command: ls /etc/watchdog.conf
   register: result
   failed_when:
-    - result.rc == 0
+    # - result.rc == 0
     - '"No such" not in result.stdout'
 
 # - name: Check watchdog is installed
