@@ -39,11 +39,12 @@
 
 # Check that watchdog is installed
 - name: Check if watchdog config file exists and fail task if watchdog.conf file not present
-  command: ls/etc/watchdog.conf
+  stat: path=/etc/watchdog.conf
   register: result
   failed_when:
+    result.stat.exists == false
     # - result.rc == 0
-    - '"No such" not in result.stdout'
+    #- '"No such" not in result.stdout'
 
 # - name: Check watchdog is installed
 #   apt:
