@@ -11,4 +11,5 @@ applicative_required_vars:
   - current_app_dir
   - rotate_file_pattern
   - app_server_user
+  - louvre-etor_directory_to_create
   
