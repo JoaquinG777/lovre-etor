@@ -1,1 +1,1 @@
-IP
+target ansible_host: IPDELDOCKER ansible_connection: ssh
