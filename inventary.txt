@@ -1,1 +1,1 @@
-target ansible_host: IPDELDOCKER ansible_connection: ssh
+target ansible_host: rpi_raspberrypi_1 ansible_connection: ssh
