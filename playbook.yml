@@ -1,1 +1,5 @@
-IP
+name: "executing task"
+host: target
+tasks:
+  name: "vamoh a aser un ping to wapo"
+  ping:
